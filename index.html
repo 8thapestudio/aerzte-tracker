@@ -98,8 +98,60 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .h-sub { margin-top: 1.4rem; font-size: clamp(.92rem, 2vw, 1.15rem); color: var(--muted); max-width: 34rem; line-height: 1.78; }
-    .h-acts { margin-top: 2.6rem; display: flex; gap: .85rem; flex-wrap: wrap; justify-content: center; }
+    .h-acts { margin-top: 2.6rem; display: flex; gap: .85rem; flex-wrap: wrap; justify-content: center; align-items: center; }
     .badge-row { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+
+    /* QR INSTALL BLOCK */
+    .qr-block {
+      display: flex; flex-direction: column; align-items: center; gap: .7rem;
+    }
+    .qr-block img {
+      width: 120px; height: 120px; border-radius: 12px;
+      border: 1px solid rgba(0,245,255,.22);
+      box-shadow: 0 0 24px rgba(0,245,255,.1);
+      display: block;
+    }
+    .qr-block .qr-lbl {
+      font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--cyan); opacity: .85;
+    }
+    /* QR DOWNLOAD BLOCK */
+    .qr-download {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.2rem; padding: 2.2rem 2rem;
+      background: rgba(0,245,255,.03); border: 1px solid rgba(0,245,255,.12);
+      border-radius: 16px; position: relative; overflow: hidden;
+    }
+    .qr-download::before {
+      content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(0,245,255,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .qr-download img {
+      width: 200px; height: 200px; border-radius: 16px;
+      border: 1px solid rgba(0,245,255,.25);
+      box-shadow: 0 0 40px rgba(0,245,255,.12), 0 12px 40px rgba(0,0,0,.5);
+      position: relative; z-index: 1;
+    }
+    .qr-download .qr-title {
+      font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -.02em;
+      position: relative; z-index: 1;
+    }
+    .qr-download .qr-sub {
+      font-size: .82rem; color: var(--muted); line-height: 1.7; text-align: center;
+      max-width: 280px; position: relative; z-index: 1;
+    }
+    .qr-download .qr-platforms {
+      display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .qr-platform {
+      font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      padding: .22rem .65rem; border-radius: 20px;
+      background: rgba(0,245,255,.08); color: var(--cyan);
+      border: 1px solid rgba(0,245,255,.18);
+    }
     .badge {
       display: inline-flex; align-items: center; gap: .4rem;
       border: 1px solid var(--border); border-radius: 20px;
@@ -422,11 +474,11 @@
   <h1 class="h-title"><span class="gr">Ärzte</span><br>Tracker</h1>
   <p class="h-sub">Stress-optimized medical appointment tracking. Designed to disappear into your workflow — not fight it.</p>
   <div class="h-acts">
-    <a href="./app/" class="btn btn-p">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      Open App
-    </a>
-    <a href="#demo" class="btn btn-g">See How It Works</a>
+    <div class="qr-block">
+      <img src="./qr-install.png" alt="QR-Code zum Installieren der App" />
+      <span class="qr-lbl">App scannen &amp; installieren</span>
+    </div>
+    <a href="#demo" class="btn btn-g">So funktioniert's</a>
   </div>
   <div class="badge-row">
     <div class="badge"><span>✓</span> No account needed</div>
@@ -613,34 +665,38 @@
 <section id="download">
   <div class="container">
     <div class="dli fade-up">
-      <p class="lbl">Get the app</p>
-      <h2 class="ttl">Install it.<br>Own it.</h2>
+      <p class="lbl">App installieren</p>
+      <h2 class="ttl">Kostenlos.<br>Privat. Immer dabei.</h2>
       <div class="div" style="margin:1.5rem auto"></div>
       <div class="dlbox">
-        <h3>Free. Private. Always available.</h3>
-        <p>Install Ärzte Tracker as a PWA on any device — iOS, Android, or desktop. Your data never leaves your phone.</p>
-        <div class="dlacts">
-          <a href="./app/" class="btn btn-p">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            Open App
-          </a>
-          <button class="btn btn-p" id="dl-install" style="background:rgba(0,245,255,.12);color:var(--cyan);box-shadow:none;border:1px solid rgba(0,245,255,.3);">
+        <div class="qr-download">
+          <img src="./qr-install.png" alt="QR-Code — Ärzte Tracker installieren" />
+          <div class="qr-title">QR-Code scannen &amp; installieren</div>
+          <p class="qr-sub">Öffne die Kamera oder einen QR-Scanner, scanne den Code und füge die App direkt zum Startbildschirm hinzu — kein App Store nötig.</p>
+          <div class="qr-platforms">
+            <span class="qr-platform">iOS Safari</span>
+            <span class="qr-platform">Android Chrome</span>
+            <span class="qr-platform">Desktop</span>
+          </div>
+        </div>
+        <div class="dlacts" style="margin-top:1.8rem">
+          <button class="btn btn-p" id="dl-install">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Install PWA
+            Als PWA installieren
           </button>
           <a href="https://github.com/8thapestudio/aerzte-tracker/archive/refs/heads/main.zip" class="btn btn-g" download>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download ZIP
+            ZIP herunterladen
           </a>
           <a href="https://github.com/8thapestudio/aerzte-tracker" target="_blank" class="btn btn-g">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-            View Source
+            Quellcode
           </a>
         </div>
         <div class="pwa-hint" id="pwa-hint">
-          <strong>Install on iOS Safari:</strong> tap <code>Share ↑</code> → <code>Add to Home Screen</code><br>
-          <strong>On Android Chrome:</strong> tap <code>⋮ Menu</code> → <code>Add to Home Screen</code> or <code>Install app</code><br>
-          <strong>Desktop Chrome / Edge:</strong> look for the <code>⊕ Install</code> icon in the address bar
+          <strong>iOS Safari:</strong> Tippe auf <code>Teilen ↑</code> → <code>Zum Home-Bildschirm</code><br>
+          <strong>Android Chrome:</strong> Tippe auf <code>⋮ Menü</code> → <code>Zum Startbildschirm hinzufügen</code><br>
+          <strong>Desktop Chrome / Edge:</strong> Symbol <code>⊕ Installieren</code> in der Adressleiste
         </div>
       </div>
     </div>
