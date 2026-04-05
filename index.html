@@ -388,6 +388,14 @@
       .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
       .dlbox { padding: 2.5rem 1.6rem; }
       footer { flex-direction: column; gap: .7rem; text-align: center; padding: 1.8rem; }
+      /* hide external annotation bubbles — in-phone hint bar is enough on mobile */
+      .anno { display: none; }
+      .stage { min-height: auto; padding: 2rem 1rem; }
+      .phone { width: 250px; }
+    }
+    @media (max-width: 420px) {
+      .phone { width: 220px; }
+      .p-card { min-width: 132px; }
     }
   </style>
 </head>
@@ -550,7 +558,7 @@
     </div>
     <div class="feat-grid fade-up">
       <div class="fc"><div class="fi">🔁</div><h3>Smart Auto-Sort</h3><p>Appointments re-order by proximity. The next one is always first, always visible.</p></div>
-      <div class="fc"><div class="fi">🏷</div><h3>Today / Tomorrow</h3><p>Contextual colour labels — red for urgent today, dim for tomorrow. No reading needed.</p></div>
+      <div class="fc"><div class="fi">🏷</div><h3>Color-coded urgency</h3><p>Pink = today, cyan = soon, amber = tomorrow, grey = past. Zero reading required — just glance.</p></div>
       <div class="fc"><div class="fi">📞</div><h3>Click-to-Call</h3><p>One tap initiates a call directly. No copy-paste, no switching apps.</p></div>
       <div class="fc"><div class="fi">📦</div><h3>Offline Storage</h3><p>All data lives in LocalStorage. No account, no server, no privacy concern.</p></div>
       <div class="fc"><div class="fi">📱</div><h3>PWA Ready</h3><p>Install to home screen. Works like a native app — loads instantly, works offline.</p></div>
@@ -590,10 +598,10 @@
         <div style="margin-top:2.2rem">
           <p class="clbl">Next Steps</p>
           <ul class="plist">
-            <li>Doctor registration flow</li>
-            <li>Export &amp; backup functionality</li>
+            <li>Doctor profile with specialty &amp; address</li>
+            <li>Reminder notifications (PWA push)</li>
             <li>Optional cross-device sync</li>
-            <li>Extended past-appointment states</li>
+            <li>Recurring appointment templates</li>
           </ul>
         </div>
       </div>
