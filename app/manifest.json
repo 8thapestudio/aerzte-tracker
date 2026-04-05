@@ -1,17 +1,28 @@
 {
   "name": "Ärzte Tracker",
   "short_name": "Ärzte",
+  "description": "Stress-optimized medical appointment tracker by 8th Ape Studio",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b0b0b",
-  "theme_color": "#00f0ff",
-  "description": "Stress-optimized medical appointment tracker by 8th Ape Studio",
+  "orientation": "portrait-primary",
+  "background_color": "#050810",
+  "theme_color": "#050810",
+  "categories": ["health", "medical", "productivity"],
   "icons": [
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Appointment",
+      "short_name": "Add",
+      "description": "Add a new appointment",
+      "url": "./?action=new"
     }
   ]
 }
