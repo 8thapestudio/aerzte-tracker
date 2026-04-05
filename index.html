@@ -128,82 +128,197 @@
     .step h4 { font-size: .88rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
     .step p  { font-size: .8rem; color: var(--muted); line-height: 1.6; }
 
-    /* PHONE */
+    /* PHONE STAGE */
     .stage {
       background: var(--bg3); border: 1px solid var(--border); border-radius: 18px;
-      padding: 2rem; position: relative; overflow: hidden;
-      min-height: 480px; display: flex; align-items: center; justify-content: center;
+      padding: 2.5rem 1.5rem 2rem; position: relative; overflow: hidden;
+      min-height: 580px; display: flex; align-items: center; justify-content: center;
     }
     .stage::before {
-      content: ''; position: absolute; inset: 0;
+      content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
-        repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,245,255,.022) 28px,rgba(0,245,255,.022) 29px),
-        repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(0,245,255,.022) 28px,rgba(0,245,255,.022) 29px);
+        repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,245,255,.02) 28px,rgba(0,245,255,.02) 29px),
+        repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(0,245,255,.02) 28px,rgba(0,245,255,.02) 29px);
     }
+    /* ambient glow */
+    .stage-glow {
+      position: absolute; width: 280px; height: 280px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,245,255,.07) 0%, transparent 70%);
+    }
+
+    /* PHONE FRAME */
     .phone {
-      width: 255px; position: relative; z-index: 1;
-      background: #07101e; border: 1.5px solid rgba(0,245,255,.25); border-radius: 22px; overflow: hidden;
-      box-shadow: 0 0 60px rgba(0,245,255,.1), 0 20px 60px rgba(0,0,0,.6);
+      width: 268px; border-radius: 40px; overflow: hidden;
+      background: #050d1a;
+      border: 2px solid rgba(0,245,255,.28);
+      box-shadow: 0 0 70px rgba(0,245,255,.1), 0 28px 80px rgba(0,0,0,.75),
+                  inset 0 0 0 1px rgba(255,255,255,.04);
+      position: relative; z-index: 2; flex-shrink: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     }
-    .pbar {
+    /* status bar */
+    .p-status {
       display: flex; align-items: center; justify-content: space-between;
-      padding: .65rem 1rem; background: rgba(0,245,255,.04);
-      border-bottom: 1px solid rgba(0,245,255,.1);
+      padding: .55rem 1rem .2rem;
+      font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.55);
+      letter-spacing: .03em;
     }
-    .pbar .an { font-size: .72rem; font-weight: 800; color: var(--cyan); letter-spacing: .04em; }
-    .ptag { font-size: .6rem; padding: .18rem .45rem; border-radius: 20px; background: rgba(0,245,255,.1); color: var(--cyan); }
-    .pbody { padding: .8rem; min-height: 360px; }
-    .pc {
-      background: rgba(255,255,255,.025); border: 1px solid rgba(0,245,255,.07);
-      border-left: 2px solid var(--cyan); border-radius: 9px;
-      padding: .6rem .85rem; margin-bottom: .45rem;
+    .p-sicons { display: flex; align-items: center; gap: .32rem; }
+    /* app nav */
+    .p-nav {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .3rem .8rem .4rem;
+      background: rgba(5,8,16,.9);
+      border-bottom: 1px solid rgba(0,245,255,.09);
+    }
+    .p-back { font-size: .54rem; letter-spacing: .07em; text-transform: uppercase; color: rgba(0,245,255,.5); flex-shrink: 0; }
+    .p-brand { flex: 1; font-size: .78rem; font-weight: 800; color: #fff; letter-spacing: -.01em; }
+    .p-brand span { color: #00f5ff; }
+    .p-tag {
+      font-size: .52rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .48rem; border-radius: 20px;
+      background: rgba(0,245,255,.1); color: #00f5ff; border: 1px solid rgba(0,245,255,.2);
+    }
+    /* date bar */
+    .p-datebar {
       display: flex; align-items: center; justify-content: space-between;
-      transition: all .4s ease;
+      padding: .45rem .8rem .35rem;
+      border-bottom: 1px solid rgba(0,245,255,.06);
     }
-    .pc .pn { font-size: .74rem; font-weight: 700; color: #fff; }
-    .pc .pt { font-size: .66rem; color: var(--cyan); margin-top: .1rem; }
-    .pc .pl { font-size: .58rem; padding: .18rem .42rem; border-radius: 20px; background: rgba(0,245,255,.1); color: var(--cyan); white-space: nowrap; }
-    .pc.urg { border-left-color: var(--magenta); }
-    .pc.urg .pt { color: var(--magenta); }
-    .pc.urg .pl { background: rgba(255,45,120,.1); color: var(--magenta); }
-    .pc.dim { opacity: .38; border-left-color: rgba(110,122,150,.3); }
-    .pc.dim .pt, .pc.dim .pl { color: var(--muted); background: rgba(110,122,150,.08); }
-    .pc.hi { border-color: rgba(0,245,255,.4); background: rgba(0,245,255,.07); box-shadow: 0 0 14px rgba(0,245,255,.12); }
-    .pform {
-      background: rgba(0,245,255,.04); border: 1px solid rgba(0,245,255,.15);
-      border-radius: 10px; padding: .85rem; display: none; margin-bottom: .5rem;
+    .p-date { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.65); letter-spacing: .06em; text-transform: uppercase; }
+    .p-count { font-size: .57rem; color: rgba(0,245,255,.55); }
+    /* card track */
+    .p-track {
+      display: flex; gap: 7px; padding: 8px 8px 6px;
+      overflow: hidden; scroll-snap-type: x mandatory;
+      transition: transform .5s ease;
     }
-    .pform.on { display: block; }
-    .pi {
-      width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(0,245,255,.15);
-      border-radius: 6px; padding: .45rem .7rem; font-size: .72rem; color: #fff;
-      margin-bottom: .4rem; font-family: inherit; outline: none;
+    /* card */
+    .p-card {
+      min-width: 154px; border-radius: 14px; overflow: hidden;
+      background: rgba(13,21,37,.98);
+      border: 1px solid rgba(0,245,255,.09);
+      box-shadow: 0 4px 18px rgba(0,0,0,.4);
+      display: flex; flex-direction: column; flex-shrink: 0;
+      transition: box-shadow .4s, border-color .4s;
     }
-    .psave {
-      background: var(--cyan); color: #050810; border: none; border-radius: 6px;
-      padding: .4rem .9rem; font-size: .7rem; font-weight: 700; cursor: pointer; font-family: inherit;
+    .p-card.glow-mag { border-color: rgba(255,45,120,.5); box-shadow: 0 0 0 1.5px rgba(255,45,120,.4), 0 0 20px rgba(255,45,120,.2); }
+    .p-card.glow-cyan { border-color: rgba(0,245,255,.5); box-shadow: 0 0 0 1.5px rgba(0,245,255,.4), 0 0 20px rgba(0,245,255,.15); }
+    .p-card.glow-amb { border-color: rgba(255,184,48,.5); box-shadow: 0 0 0 1.5px rgba(255,184,48,.4), 0 0 20px rgba(255,184,48,.15); }
+    .p-stripe { height: 3px; flex-shrink: 0; }
+    .p-stripe.mag { background: #ff2d78; }
+    .p-stripe.cyan { background: #00f5ff; }
+    .p-stripe.amb { background: #ffb830; }
+    .p-cbody { padding: .6rem .7rem .4rem; flex: 1; }
+    .p-cname { font-size: .7rem; font-weight: 800; color: #fff; line-height: 1.2; }
+    .p-cloc  { font-size: .56rem; color: rgba(110,122,150,.85); margin-top: .1rem; line-height: 1.3; }
+    .p-crow  { display: flex; align-items: center; justify-content: space-between; margin-top: .45rem; }
+    .p-ctime { font-size: .88rem; font-weight: 800; }
+    .p-ctime.mag { color: #ff2d78; }
+    .p-ctime.cyan { color: #00f5ff; }
+    .p-ctime.amb { color: #ffb830; }
+    .p-clbl {
+      font-size: .5rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      padding: .14rem .4rem; border-radius: 20px;
     }
-    .cflash {
-      position: absolute; inset: 0; z-index: 20; background: rgba(0,245,255,.1); border-radius: 18px;
+    .p-clbl.mag { background: rgba(255,45,120,.12); color: #ff2d78; border: 1px solid rgba(255,45,120,.25); }
+    .p-clbl.cyan { background: rgba(0,245,255,.1); color: #00f5ff; border: 1px solid rgba(0,245,255,.18); }
+    .p-clbl.amb { background: rgba(255,184,48,.1); color: #ffb830; border: 1px solid rgba(255,184,48,.2); }
+    .p-cnote { font-size: .55rem; color: rgba(110,122,150,.75); margin-top: .3rem; line-height: 1.35; }
+    .p-cfooter {
+      border-top: 1px solid rgba(0,245,255,.06); margin-top: .3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .35rem .7rem;
+    }
+    .p-ctel { font-size: .58rem; font-weight: 600; }
+    .p-ctel.mag { color: #ff2d78; }
+    .p-ctel.cyan { color: #00f5ff; }
+    .p-callbtn {
+      width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity .35s; pointer-events: none;
+      transition: transform .2s;
     }
-    .cflash.on { opacity: 1; }
-    .cfin {
-      background: #080d1a; border: 1px solid rgba(0,245,255,.3);
-      border-radius: 14px; padding: 1.4rem 2rem; text-align: center;
+    .p-callbtn.mag { background: rgba(255,45,120,.1); border: 1px solid rgba(255,45,120,.25); color: #ff2d78; }
+    .p-callbtn.cyan { background: rgba(0,245,255,.1); border: 1px solid rgba(0,245,255,.2); color: #00f5ff; }
+    /* add card */
+    .p-add {
+      min-width: 80px; border-radius: 14px; flex-shrink: 0;
+      background: rgba(0,245,255,.03); border: 1.5px dashed rgba(0,245,255,.18);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .25rem; padding: .8rem .5rem;
+      transition: border-color .4s, background .4s, box-shadow .4s;
     }
-    .cfin .cfl { font-size: .7rem; color: var(--muted); margin-bottom: .3rem; letter-spacing: .08em; }
-    .cfin .cfn { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: .5rem; }
-    .cfin .cfp { font-size: .85rem; color: var(--cyan); font-weight: 700; }
-    .cfin .cfw { display: flex; gap: 3px; justify-content: center; margin-top: .8rem; align-items: flex-end; }
-    .cfin .cfw span { width: 3px; background: var(--cyan); border-radius: 2px; animation: wv 1s ease-in-out infinite; }
-    .cfin .cfw span:nth-child(1){height:10px;animation-delay:0s}
-    .cfin .cfw span:nth-child(2){height:18px;animation-delay:.15s}
-    .cfin .cfw span:nth-child(3){height:24px;animation-delay:.3s}
-    .cfin .cfw span:nth-child(4){height:18px;animation-delay:.45s}
-    .cfin .cfw span:nth-child(5){height:10px;animation-delay:.6s}
+    .p-add.hi {
+      border-color: rgba(0,245,255,.55); background: rgba(0,245,255,.07);
+      box-shadow: 0 0 0 1.5px rgba(0,245,255,.3), 0 0 20px rgba(0,245,255,.18);
+    }
+    .p-add-plus { font-size: 1.4rem; line-height: 1; color: rgba(0,245,255,.45); font-weight: 300; }
+    .p-add-lbl { font-size: .52rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(0,245,255,.38); }
+    /* toolbar */
+    .p-toolbar {
+      display: flex; align-items: center; gap: .28rem;
+      padding: .45rem .7rem .55rem;
+      border-top: 1px solid rgba(0,245,255,.07);
+      background: rgba(5,8,16,.9);
+    }
+    .p-tbtn {
+      flex: 1; padding: .3rem .15rem; border-radius: 7px; text-align: center;
+      font-size: .5rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+      color: rgba(110,122,150,.75);
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.05);
+    }
+    .p-tbtn.danger { color: rgba(255,45,120,.65); border-color: rgba(255,45,120,.1); background: rgba(255,45,120,.04); }
+    .p-tbtn.prime  { color: #00f5ff; border-color: rgba(0,245,255,.2); background: rgba(0,245,255,.07); }
+    /* home indicator */
+    .p-home { height: 22px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.35); }
+    .p-homebar { width: 80px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.22); }
+    /* calling overlay */
+    .p-calling {
+      position: absolute; inset: 0; z-index: 12; border-radius: 38px;
+      background: rgba(5,8,16,.97);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .45rem;
+      opacity: 0; transition: opacity .4s; pointer-events: none;
+    }
+    .p-calling.on { opacity: 1; }
+    .pc-lbl { font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(110,122,150,.7); }
+    .pc-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .pc-num  { font-size: .8rem; color: #ff2d78; font-weight: 600; }
+    .pc-waves { display: flex; gap: 3px; align-items: flex-end; margin-top: .35rem; }
+    .pc-waves span { width: 3px; background: #ff2d78; border-radius: 2px; animation: wv 1s ease-in-out infinite; }
+    .pc-waves span:nth-child(1){height:7px;animation-delay:0s}
+    .pc-waves span:nth-child(2){height:13px;animation-delay:.15s}
+    .pc-waves span:nth-child(3){height:20px;animation-delay:.3s}
+    .pc-waves span:nth-child(4){height:13px;animation-delay:.45s}
+    .pc-waves span:nth-child(5){height:7px;animation-delay:.6s}
     @keyframes wv{0%,100%{transform:scaleY(1);opacity:.6}50%{transform:scaleY(1.5);opacity:1}}
+    /* in-phone hint bar */
+    .p-hint {
+      padding: .42rem .75rem; text-align: center;
+      background: rgba(0,245,255,.07); border-top: 1px solid rgba(0,245,255,.1);
+      font-size: .6rem; color: rgba(0,245,255,.8); font-weight: 600; letter-spacing: .04em;
+      min-height: 28px; display: flex; align-items: center; justify-content: center; gap: .4rem;
+      transition: opacity .3s;
+    }
+    .p-hint .hk { color: #fff; background: rgba(0,245,255,.12); border-radius: 4px; padding: .05rem .35rem; }
+    .p-hint.warn { background: rgba(255,45,120,.07); border-top-color: rgba(255,45,120,.15); color: rgba(255,45,120,.85); }
+    /* annotation bubbles outside phone */
+    .anno {
+      position: absolute; z-index: 5; pointer-events: none;
+      opacity: 0; transition: opacity .4s;
+    }
+    .anno.on { opacity: 1; }
+    .anno-box {
+      background: rgba(6,11,24,.96); border: 1px solid rgba(0,245,255,.3); border-radius: 8px;
+      padding: .42rem .78rem; font-size: .72rem; font-weight: 600; color: #e2e8f0;
+      white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,.5), 0 0 12px rgba(0,245,255,.07);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .anno-box em { font-style: normal; color: #00f5ff; }
+    .anno-box .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .anno-arrow {
+      width: 1px; background: rgba(0,245,255,.3);
+      position: absolute; transform-origin: top;
+    }
 
     /* FEATURES */
     .feat-grid {
@@ -317,46 +432,109 @@
 <section id="demo">
   <div class="container">
     <div class="demo-grid fade-up">
+
+      <!-- STEPS -->
       <div>
         <p class="lbl">How it works</p>
-        <h2 class="ttl">Built for the<br>real moment.</h2>
+        <h2 class="ttl">Four taps.<br>That's all.</h2>
         <div class="div"></div>
-        <p class="dsc">Four interactions. Everything you need. Nothing you don't.</p>
+        <p class="dsc">Every interaction is shown live in the mockup on the right.</p>
         <div class="steps">
           <div class="step active" data-step="0">
             <div class="snum">1</div>
-            <div><h4>Add an appointment</h4><p>Name, date, time, phone. That's it — no forms, no categories.</p></div>
+            <div><h4>Swipe through your cards</h4><p>Appointments are horizontal cards — swipe to browse. The nearest one is always first.</p></div>
           </div>
           <div class="step" data-step="1">
             <div class="snum">2</div>
-            <div><h4>Auto-sorted instantly</h4><p>The nearest appointment always floats to top. No manual ordering.</p></div>
+            <div><h4>Add a new appointment</h4><p>Tap the + card at the end of the deck. Name, date, time, phone — nothing else required.</p></div>
           </div>
           <div class="step" data-step="2">
             <div class="snum">3</div>
-            <div><h4>Today / Tomorrow labels</h4><p>Critical appointments colour-coded at a glance. No reading required.</p></div>
+            <div><h4>Color tells you everything</h4><p>Pink stripe = today. Cyan = soon. Amber = tomorrow. No reading required — just glance.</p></div>
           </div>
           <div class="step" data-step="3">
             <div class="snum">4</div>
-            <div><h4>One tap to call</h4><p>Touch the number. Phone rings. Zero navigation.</p></div>
+            <div><h4>One tap to call</h4><p>Touch the number on any card. Your phone dials immediately — zero navigation.</p></div>
           </div>
         </div>
       </div>
+
+      <!-- PHONE MOCKUP -->
       <div class="stage">
+        <div class="stage-glow"></div>
+
         <div class="phone" id="phone">
-          <div class="pbar">
-            <span class="an">Ärzte Tracker</span>
-            <span class="ptag" id="ph-tag">Today</span>
-          </div>
-          <div class="pbody" id="ph-body"></div>
-          <div class="cflash" id="cflash">
-            <div class="cfin">
-              <div class="cfl">CALLING</div>
-              <div class="cfn">Dr. Fischer</div>
-              <div class="cfp">+43 512 000 1234</div>
-              <div class="cfw"><span></span><span></span><span></span><span></span><span></span></div>
+          <!-- Status bar -->
+          <div class="p-status">
+            <span>9:41</span>
+            <div class="p-sicons">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="rgba(255,255,255,.6)"><rect x="0" y="3" width="2.2" height="5" rx=".4"/><rect x="3.3" y="1.5" width="2.2" height="6.5" rx=".4"/><rect x="6.6" y="0" width="2.2" height="8" rx=".4"/><rect x="9.9" y="0" width="2.2" height="8" rx=".4" opacity=".3"/></svg>
+              <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x=".5" y=".5" width="13" height="7" rx="1.8" stroke="rgba(255,255,255,.5)" stroke-width="1"/><rect x="14" y="2.5" width="1.5" height="3" rx=".4" fill="rgba(255,255,255,.4)"/><rect x="1.5" y="1.5" width="9" height="5" rx=".9" fill="rgba(255,255,255,.65)"/></svg>
             </div>
           </div>
+          <!-- App nav -->
+          <div class="p-nav">
+            <span class="p-back">← STUDIO</span>
+            <span class="p-brand"><span>Ärzte</span> Tracker</span>
+            <span class="p-tag" id="ph-tag">TODAY</span>
+          </div>
+          <!-- Date bar -->
+          <div class="p-datebar">
+            <span class="p-date">SUNDAY, APR 5</span>
+            <span class="p-count" id="ph-count">3 appointments</span>
+          </div>
+          <!-- Card track -->
+          <div class="p-track" id="ph-track"></div>
+          <!-- In-phone hint -->
+          <div class="p-hint" id="ph-hint">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span id="ph-hint-text">Swipe cards left &amp; right</span>
+          </div>
+          <!-- Toolbar -->
+          <div class="p-toolbar">
+            <div class="p-tbtn">Backup</div>
+            <div class="p-tbtn">Restore</div>
+            <div class="p-tbtn danger">Clear all</div>
+            <div class="p-tbtn prime">+ Add</div>
+          </div>
+          <!-- Home indicator -->
+          <div class="p-home"><div class="p-homebar"></div></div>
+          <!-- Calling overlay -->
+          <div class="p-calling" id="ph-calling">
+            <div class="pc-lbl">CALLING</div>
+            <div class="pc-name">Dr. Kovář</div>
+            <div class="pc-num">+43 512 504 0</div>
+            <div class="pc-waves"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
         </div>
+
+        <!-- Annotation overlays (positioned relative to stage) -->
+        <div class="anno" id="anno-0" style="top:1.1rem;left:50%;transform:translateX(-50%)">
+          <div class="anno-box">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00f5ff" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <em>Swipe</em> between appointment cards
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00f5ff" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+        <div class="anno" id="anno-1" style="bottom:4.5rem;right:.7rem">
+          <div class="anno-box">
+            <em>+</em> Tap to add new
+          </div>
+        </div>
+        <div class="anno" id="anno-2" style="top:50%;left:.4rem;transform:translateY(-50%)">
+          <div class="anno-box" style="flex-direction:column;align-items:flex-start;gap:.28rem;white-space:normal;max-width:110px">
+            <span style="display:flex;align-items:center;gap:.35rem"><span class="dot" style="background:#ff2d78"></span>Today</span>
+            <span style="display:flex;align-items:center;gap:.35rem"><span class="dot" style="background:#00f5ff"></span>Soon</span>
+            <span style="display:flex;align-items:center;gap:.35rem"><span class="dot" style="background:#ffb830"></span>Tomorrow</span>
+          </div>
+        </div>
+        <div class="anno" id="anno-3" style="top:1.1rem;left:50%;transform:translateX(-50%)">
+          <div class="anno-box">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="color:#ff2d78"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+            Tap number → <em>calls immediately</em>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -509,69 +687,123 @@ async function install(){
 document.getElementById('nav-install').addEventListener('click',install);
 document.getElementById('dl-install').addEventListener('click',install);
 
-/* DEMO */
-const CI=[
-  {n:'Dr. Novák',    t:'11:00',c:'',    l:'Today'},
-  {n:'Dr. Weber',    t:'14:30',c:'dim', l:'Tomorrow'},
-  {n:'Klinik Mitte', t:'09:00',c:'dim', l:'Tomorrow'},
+/* DEMO v3.1 */
+const DCARDS=[
+  {name:'Dr. Kovář',  loc:'Innsbruck · Kardiologie', time:'08:30', label:'TODAY',    tel:'+43 512 504 0',  note:'Nüchtern kommen.',      col:'mag'},
+  {name:'Dr. Berger', loc:'Hall i.T. · Neurologie',  time:'11:00', label:'TODAY',    tel:'+43 5223 509',   note:'',                       col:'mag'},
+  {name:'MRI – Mitte',loc:'Innsbruck · Radiologie',  time:'09:15', label:'TOMORROW', tel:'+43 512 360 00', note:'Keine Metallteile.',     col:'amb'},
 ];
-const CS=[
-  {n:'Dr. Fischer',  t:'08:30',c:'urg', l:'Today'},
-  {n:'Dr. Novák',    t:'11:00',c:'',    l:'Today'},
-  {n:'Dr. Weber',    t:'14:30',c:'dim', l:'Tomorrow'},
-  {n:'Klinik Mitte', t:'09:00',c:'dim', l:'Tomorrow'},
+const HINTS=[
+  {text:'Swipe cards left &amp; right', warn:false},
+  {text:'Tap <span class="hk">+</span> to add a new card', warn:false},
+  {text:'Color stripe = urgency level', warn:false},
+  {text:'Tap number → doctor picks up', warn:true},
 ];
-const TAGS=['New Entry','Today','Today','Calling'];
-let cs=0,di=null;
 
-function mk(d,hi){
-  const e=document.createElement('div');
-  e.className='pc '+d.c+(hi?' hi':'');
-  e.innerHTML=`<div><div class="pn">${d.n}</div><div class="pt">${d.t}</div></div><span class="pl">${d.l}</span>`;
-  return e;
+function mkCard(d,opts){
+  opts=opts||{};
+  const c=document.createElement('div');
+  c.className='p-card'+(opts.glow?' glow-'+d.col:'');
+
+  const stripe=document.createElement('div');
+  stripe.className='p-stripe '+d.col;
+  c.appendChild(stripe);
+
+  const body=document.createElement('div');
+  body.className='p-cbody';
+
+  const nm=document.createElement('div'); nm.className='p-cname'; nm.textContent=d.name; body.appendChild(nm);
+  const loc=document.createElement('div'); loc.className='p-cloc'; loc.textContent=d.loc; body.appendChild(loc);
+  if(d.note){const n=document.createElement('div');n.className='p-cnote';n.textContent=d.note;body.appendChild(n);}
+
+  const row=document.createElement('div'); row.className='p-crow';
+  const t=document.createElement('div');   t.className='p-ctime '+d.col; t.textContent=d.time;
+  const l=document.createElement('div');   l.className='p-clbl '+d.col;  l.textContent=d.label;
+  row.appendChild(t); row.appendChild(l); body.appendChild(row);
+  c.appendChild(body);
+
+  const foot=document.createElement('div'); foot.className='p-cfooter';
+  const tel=document.createElement('div');  tel.className='p-ctel '+d.col; tel.textContent=d.tel;
+  const btn=document.createElement('div');  btn.className='p-callbtn '+d.col;
+  btn.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.7-.37 1.05-.2 1.1.4 2.3.6 3.55.6.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C6.58 21 2 16.42 2 11c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.1.32 0 .68-.17.93L6.6 10.8z"/></svg>';
+  foot.appendChild(tel); foot.appendChild(btn); c.appendChild(foot);
+  return c;
 }
-function rb(cards,hi=-1,form=false){
-  const b=document.getElementById('ph-body');b.innerHTML='';
-  if(form){
-    const f=document.createElement('div');f.className='pform on';
-    f.innerHTML=`<input class="pi" id="in" type="text" placeholder="Dr. Name" readonly>
-      <input class="pi" id="it" type="text" placeholder="08:30" readonly>
-      <button class="psave">Save</button>`;
-    b.appendChild(f);
-  }
-  cards.forEach((d,i)=>b.appendChild(mk(d,i===hi)));
+
+function mkAdd(hi){
+  const c=document.createElement('div');
+  c.className='p-add'+(hi?' hi':'');
+  c.innerHTML='<div class="p-add-plus">+</div><div class="p-add-lbl">New</div>';
+  return c;
 }
-function type(id,txt,spd,cb){
-  const e=document.getElementById(id);if(!e)return;
-  e.value='';let i=0;
-  function t(){if(i<txt.length){e.value+=txt[i++];setTimeout(t,spd);}else if(cb)cb();}
-  t();
+
+function setAnno(n){
+  document.querySelectorAll('.anno').forEach((a,i)=>a.classList.toggle('on',i===n));
 }
-function rs(n){
+function setHint(n){
+  const h=document.getElementById('ph-hint');
+  const ht=document.getElementById('ph-hint-text');
+  const hint=HINTS[n];
+  h.className='p-hint'+(hint.warn?' warn':'');
+  ht.innerHTML=hint.text;
+}
+
+let dStep=0,dTimer=null;
+
+function runStep(n){
   document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('active',i===n));
-  document.getElementById('ph-tag').textContent=TAGS[n];
-  document.getElementById('cflash').classList.remove('on');
+  const track=document.getElementById('ph-track');
+  const calling=document.getElementById('ph-calling');
+  const tag=document.getElementById('ph-tag');
+  calling.classList.remove('on');
+  track.innerHTML='';
+  setAnno(n);
+  setHint(n);
+
   if(n===0){
-    rb(CI,-1,true);
-    setTimeout(()=>type('in','Dr. Fischer',85,()=>setTimeout(()=>type('it','08:30',110),250)),500);
-  } else if(n===1){
-    rb(CS,0);
-  } else if(n===2){
-    rb(CS);
-    setTimeout(()=>{document.querySelectorAll('.pc:not(.dim)').forEach(c=>c.classList.add('hi'));},400);
-    setTimeout(()=>{document.querySelectorAll('.pc').forEach(c=>c.classList.remove('hi'));},1700);
-  } else if(n===3){
-    rb([CS[0],CS[1]]);
-    setTimeout(()=>document.getElementById('cflash').classList.add('on'),500);
-    setTimeout(()=>document.getElementById('cflash').classList.remove('on'),3200);
+    // Show all cards + add, swipe hint
+    tag.textContent='TODAY';
+    DCARDS.forEach(d=>track.appendChild(mkCard(d,{})));
+    track.appendChild(mkAdd(false));
+  }
+  else if(n===1){
+    // Highlight + Add card
+    tag.textContent='NEW';
+    DCARDS.forEach(d=>track.appendChild(mkCard(d,{})));
+    track.appendChild(mkAdd(true));
+    // scroll to show + card
+    setTimeout(()=>{track.scrollLeft=track.scrollWidth;},300);
+  }
+  else if(n===2){
+    // Highlight color stripes
+    tag.textContent='TODAY';
+    DCARDS.forEach(d=>track.appendChild(mkCard(d,{glow:true})));
+    track.appendChild(mkAdd(false));
+  }
+  else if(n===3){
+    // Tap to call
+    tag.textContent='CALLING';
+    DCARDS.forEach(d=>track.appendChild(mkCard(d,{})));
+    track.appendChild(mkAdd(false));
+    setTimeout(()=>calling.classList.add('on'),600);
+    setTimeout(()=>calling.classList.remove('on'),3400);
   }
 }
-function startDemo(){rb(CI);rs(0);di=setInterval(()=>{cs=(cs+1)%4;rs(cs);},3900);}
+
+function startDemo(){
+  runStep(0);
+  dTimer=setInterval(()=>{dStep=(dStep+1)%4;runStep(dStep);},4200);
+}
 document.querySelectorAll('.step').forEach(s=>{
-  s.addEventListener('click',()=>{clearInterval(di);cs=parseInt(s.dataset.step);rs(cs);di=setInterval(()=>{cs=(cs+1)%4;rs(cs);},3900);});
+  s.addEventListener('click',()=>{
+    clearInterval(dTimer);
+    dStep=parseInt(s.dataset.step);
+    runStep(dStep);
+    dTimer=setInterval(()=>{dStep=(dStep+1)%4;runStep(dStep);},4200);
+  });
 });
-const do2=new IntersectionObserver(([e])=>{if(e.isIntersecting){startDemo();do2.disconnect();}},{threshold:.15});
-do2.observe(document.getElementById('demo'));
+const dObs=new IntersectionObserver(([e])=>{if(e.isIntersecting){startDemo();dObs.disconnect();}},{threshold:.15});
+dObs.observe(document.getElementById('demo'));
 </script>
 </body>
 </html>
