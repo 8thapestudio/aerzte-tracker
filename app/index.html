@@ -571,17 +571,23 @@ function persist(arr) {
 function uid() { return crypto.randomUUID?.() ?? (Date.now()+Math.random()).toString(36); }
 
 /* ── STATE ── */
-let isFirstRun = load() === null;
-let data = load() ?? DEMO.map(d => {
-  // set demo dates relative to today
-  const today  = new Date(); today.setHours(0,0,0,0);
-  const tom    = new Date(today); tom.setDate(tom.getDate()+1);
-  const fmt    = dt => dt.toISOString().split('T')[0];
-  if (d.id === 'demo1') return {...d, date: fmt(today)};
-  if (d.id === 'demo2') return {...d, date: fmt(today)};
-  if (d.id === 'demo3') return {...d, date: fmt(tom)};
-  return d;
-});
+const DEMO_IDS = new Set(['demo1','demo2','demo3']);
+function freshDemo() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const tom   = new Date(today); tom.setDate(tom.getDate()+1);
+  const fmt   = dt => dt.toISOString().split('T')[0];
+  return DEMO.map(d => {
+    if (d.id === 'demo1') return {...d, date: fmt(today)};
+    if (d.id === 'demo2') return {...d, date: fmt(today)};
+    if (d.id === 'demo3') return {...d, date: fmt(tom)};
+    return d;
+  });
+}
+let _saved = load();
+// treat pure-demo localStorage as first run so dates always refresh
+if (_saved !== null && _saved.length === 3 && _saved.every(d => DEMO_IDS.has(d.id))) _saved = null;
+let isFirstRun = _saved === null;
+let data = _saved ?? freshDemo();
 let editId = null;
 
 /* ── SORT ── */
