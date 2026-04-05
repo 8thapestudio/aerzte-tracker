@@ -140,13 +140,15 @@
       animation:cardIn .3s ease both;
     }
     .acard:hover{border-color:var(--border2);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+    .acard.past{opacity:.6}
     @keyframes cardIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
 
     .acard-stripe{height:3px;width:100%;flex-shrink:0}
     .stripe-today  {background:var(--mag)}
     .stripe-soon   {background:var(--cyan)}
     .stripe-tmrw   {background:var(--amber)}
-    .stripe-future {background:var(--muted);opacity:.4}
+    .stripe-past   {background:var(--muted);opacity:.3}
+    .stripe-future {background:var(--muted);opacity:.25}
 
     .acard-body{padding:.9rem 1rem;flex:1;display:flex;flex-direction:column;gap:.45rem}
 
@@ -162,6 +164,7 @@
     .lbl-today {background:rgba(255,45,120,.15);color:var(--mag);border:1px solid rgba(255,45,120,.3)}
     .lbl-soon  {background:rgba(0,245,255,.1); color:var(--cyan);border:1px solid rgba(0,245,255,.2)}
     .lbl-tmrw  {background:rgba(255,184,48,.1);color:var(--amber);border:1px solid rgba(255,184,48,.25)}
+    .lbl-past  {background:rgba(110,122,150,.1);color:var(--muted);border:1px solid rgba(110,122,150,.2)}
 
     .acard-time{
       font-size:2.4rem;font-weight:800;
@@ -171,6 +174,7 @@
     .time-today {color:var(--mag)}
     .time-soon  {color:var(--cyan)}
     .time-tmrw  {color:var(--amber)}
+    .time-past  {color:var(--muted);opacity:.55}
     .time-none  {color:var(--muted)}
 
     .acard-date{font-size:.75rem;color:var(--muted);margin-top:.1rem}
@@ -453,7 +457,7 @@
     Backup
   </button>
   <button class="btn-bar" id="btn-import" type="button">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
     Restore
   </button>
   <div class="spacer"></div>
@@ -525,7 +529,7 @@
 'use strict';
 
 /* ── CONSTANTS ── */
-const VERSION = '3.1.0';
+const VERSION = '3.2.0';
 const KEY     = 'at_v3';
 const ALLOWED = ['id','name','ort','tel','date','time','note'];
 const MAX_NOTE = 350;
@@ -586,16 +590,20 @@ function freshDemo() {
 let _saved = load();
 // treat pure-demo localStorage as first run so dates always refresh
 if (_saved !== null && _saved.length === 3 && _saved.every(d => DEMO_IDS.has(d.id))) _saved = null;
-let isFirstRun = _saved === null;
 let data = _saved ?? freshDemo();
 let editId = null;
 
 /* ── SORT ── */
 function sorted(arr) {
+  const now = Date.now();
   return [...arr].sort((a,b) => {
-    const ta = a.date ? new Date(a.date+'T'+(a.time||'00:00')).getTime() : Infinity;
-    const tb = b.date ? new Date(b.date+'T'+(b.time||'00:00')).getTime() : Infinity;
-    return ta - tb;
+    const ta = a.date ? new Date(a.date+'T'+(a.time||'23:59')).getTime() : Infinity;
+    const tb = b.date ? new Date(b.date+'T'+(b.time||'23:59')).getTime() : Infinity;
+    const pastA = a.date && ta < now;
+    const pastB = b.date && tb < now;
+    if (pastA !== pastB) return pastA ? 1 : -1; // future first, past last
+    if (pastA && pastB)  return tb - ta;         // both past: most recent first
+    return ta - tb;                               // both future: soonest first
   });
 }
 
@@ -609,7 +617,7 @@ function getLabel(dateStr) {
   if (t === now.getTime()) return {text:'Today',    key:'today'};
   if (t === tom.getTime()) return {text:'Tomorrow', key:'tmrw'};
   if (t >  now.getTime()) return {text: d.toLocaleDateString('en',{month:'short',day:'numeric'}), key:'soon'};
-  return null;
+  return {text:'Past', key:'past'};
 }
 
 /* ── TOAST ── */
@@ -696,11 +704,11 @@ function render() {
 function makeCard(d) {
   const lbl     = getLabel(d.date);
   const key     = lbl?.key || 'future';
-  const stripeM = {'today':'stripe-today','soon':'stripe-soon','tmrw':'stripe-tmrw','future':'stripe-future'};
-  const timeM   = {'today':'time-today',  'soon':'time-soon',  'tmrw':'time-tmrw',  'future':'time-none'};
-  const lblM    = {'today':'lbl-today',   'soon':'lbl-soon',   'tmrw':'lbl-tmrw'};
+  const stripeM = {'today':'stripe-today','soon':'stripe-soon','tmrw':'stripe-tmrw','past':'stripe-past','future':'stripe-future'};
+  const timeM   = {'today':'time-today',  'soon':'time-soon',  'tmrw':'time-tmrw',  'past':'time-past', 'future':'time-none'};
+  const lblM    = {'today':'lbl-today',   'soon':'lbl-soon',   'tmrw':'lbl-tmrw',   'past':'lbl-past'};
 
-  const card = mkEl('div','acard');
+  const card = mkEl('div', key==='past' ? 'acard past' : 'acard');
   card.setAttribute('role','listitem');
   card.dataset.id = d.id;
 
@@ -780,9 +788,9 @@ function doCall(id) {
   const d = data.find(x => x.id===id);
   if (!d?.tel) return;
   if (!isTel(d.tel)) { toast('Invalid phone number','e'); return; }
-  const digits = d.tel.replace(/\D/g,'');
-  if (digits.length < 6) { toast('Invalid number','e'); return; }
-  window.location.href = 'tel:+'+digits;
+  // strip only whitespace and formatting chars — preserve leading + or 00
+  const clean = d.tel.trim().replace(/[\s\-().]/g,'');
+  window.location.href = 'tel:' + clean;
 }
 
 /* ── SHEET ── */
@@ -939,8 +947,6 @@ if('serviceWorker'in navigator) navigator.serviceWorker.register('./sw.js').catc
 
 /* ── INIT ── */
 render();
-// save demo data on first run
-if (isFirstRun) persist(data);
 </script>
 </body>
 </html>
