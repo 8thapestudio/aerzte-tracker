@@ -261,6 +261,18 @@
     }
     #btn-add-main:hover{background:#fff;box-shadow:0 0 28px rgba(0,245,255,.5)}
 
+    /* ── CARD DOTS ── */
+    #card-dots{
+      display:flex;justify-content:center;align-items:center;
+      gap:.38rem;padding:.35rem 0 .15rem;flex-shrink:0;min-height:20px;
+    }
+    .cdot{
+      width:5px;height:5px;border-radius:50%;flex-shrink:0;
+      background:rgba(0,245,255,.18);transition:all .28s cubic-bezier(.4,0,.2,1);
+      cursor:pointer;
+    }
+    .cdot.on{background:var(--cyan);width:20px;border-radius:3px;}
+
     /* ── EMPTY STATE ── */
     #empty{
       display:none;flex-direction:column;align-items:center;justify-content:center;
@@ -431,6 +443,7 @@
   <div id="track-wrap">
     <div id="track" role="list" aria-label="Appointments"></div>
   </div>
+  <div id="card-dots" aria-hidden="true"></div>
   <div id="empty" role="status">
     <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     <div><strong>No appointments</strong><span>Tap + to add one</span></div>
@@ -699,6 +712,11 @@ function render() {
   document.getElementById('count-badge').textContent = count + (count===1?' appointment':' appointments');
   document.getElementById('today-label').textContent =
     new Date().toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long'});
+
+  // dots
+  renderDots(count);
+  // reset scroll to first card
+  document.getElementById('track').scrollLeft = 0;
 }
 
 function makeCard(d) {
@@ -772,6 +790,50 @@ function makeCard(d) {
   card.appendChild(body);
   return card;
 }
+
+/* ── DOTS ── */
+function renderDots(count) {
+  const el = document.getElementById('card-dots');
+  el.innerHTML = '';
+  if (count <= 1) return;
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.className = 'cdot' + (i === 0 ? ' on' : '');
+    d.addEventListener('click', () => scrollToCard(i));
+    el.appendChild(d);
+  }
+}
+
+function getActiveIdx() {
+  const track = document.getElementById('track');
+  const cards = track.querySelectorAll('.acard');
+  if (!cards.length) return 0;
+  const card0 = cards[0];
+  const cardW = card0.offsetWidth + 16; // 1rem gap
+  return Math.min(Math.round(track.scrollLeft / cardW), cards.length - 1);
+}
+
+function updateDots() {
+  const idx  = getActiveIdx();
+  document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('on', i === idx));
+}
+
+function scrollToCard(idx) {
+  const track = document.getElementById('track');
+  const cards = track.querySelectorAll('.acard');
+  if (!cards[idx]) return;
+  cards[idx].scrollIntoView({behavior:'smooth', block:'nearest', inline:'start'});
+}
+
+document.getElementById('track').addEventListener('scroll', updateDots, {passive:true});
+
+/* ── KEYBOARD NAV ── */
+document.addEventListener('keydown', e => {
+  if (document.getElementById('sheet').classList.contains('on')) return;
+  if (document.getElementById('modal-bg').classList.contains('on')) return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); scrollToCard(getActiveIdx() + 1); }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollToCard(getActiveIdx() - 1); }
+});
 
 /* ── EVENT DELEGATION ── */
 document.getElementById('track').addEventListener('click', e => {
