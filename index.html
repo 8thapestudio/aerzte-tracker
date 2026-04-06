@@ -433,8 +433,19 @@
     footer a { color: var(--cyan); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
+    /* DESKTOP-ONLY APP LINK */
+    .qr-desktop-link {
+      display: inline-block; margin-top: .3rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--cyan); text-decoration: none; opacity: .75;
+      border-bottom: 1px solid rgba(0,245,255,.3); padding-bottom: 1px;
+      transition: opacity .2s;
+    }
+    .qr-desktop-link:hover { opacity: 1; }
+
     /* RESPONSIVE */
     @media (max-width: 820px) {
+      .qr-desktop-link { display: none; }
       nav { padding: .85rem 1.4rem; }
       .demo-grid { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -477,6 +488,7 @@
     <div class="qr-block">
       <img src="./qr-install.png" alt="QR-Code zum Installieren der App" />
       <span class="qr-lbl">App scannen &amp; installieren</span>
+      <a href="./app/" class="qr-desktop-link">App direkt öffnen →</a>
     </div>
     <a href="#demo" class="btn btn-g">So funktioniert's</a>
   </div>
@@ -678,6 +690,7 @@
             <span class="qr-platform">Android Chrome</span>
             <span class="qr-platform">Desktop</span>
           </div>
+          <a href="./app/" class="qr-desktop-link">App direkt öffnen →</a>
         </div>
         <div class="dlacts" style="margin-top:1.8rem">
           <button class="btn btn-p" id="dl-install">
